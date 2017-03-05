@@ -1,5 +1,5 @@
 require('dotenv').config({ silent: true })
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const path = require('path')
 // const session = require('express-session')
@@ -13,13 +13,12 @@ const express = require('express')
 // what is this routes?
 // const routes = require('./routes')
 // const user = require('./routes/user')
-// const http = require('http')
 const morgan = require('morgan')
 const app = express()
 
-// mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/buy2gether')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
 
-// mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise
 app.set('view engine', 'ejs')
 // app.use(session({
 //   secret: process.env.SESSION_SECRET,
@@ -57,8 +56,7 @@ app.get('/', function (req, res) {
 // app.use('/products', productController)
 // app.use('/products', msgController)
 
-// all environments
-// app.set('port', process.env.PORT || 3000)
+// below from the online tutorial
 // app.use(express.favicon())
 // app.use(app.router)
 
@@ -74,6 +72,9 @@ io.on('connection', function (socket) {
   console.log('a user connected')
   socket.on('disconnect', function () {
     console.log('user disconnected')
+  })
+  socket.on('chat', function (msg) {
+    socket.broadcast.emit('chat', msg)
   })
 })
 
