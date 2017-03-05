@@ -68,4 +68,13 @@ app.get('/', function (req, res) {
 var server = app.listen(process.env.PORT || 3000)
 console.log('Server UP')
 
+const io = require('socket.io').listen(server)
+
+io.on('connection', function (socket) {
+  console.log('a user connected')
+  socket.on('disconnect', function () {
+    console.log('user disconnected')
+  })
+})
+
 module.exports = server
