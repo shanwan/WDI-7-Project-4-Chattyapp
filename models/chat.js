@@ -1,15 +1,11 @@
 const mongoose = require('mongoose')
 
-// create a schema
-const msgSchema = new mongoose.Schema({
-  content: String
+// create a schema for how the chat messages will be stored in mongoDB
+const chatroomSchema = new mongoose.Schema({
+  chatroomName: String,
+  participants: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 })
 
-const chatSchema = new mongoose.Schema({
-  chatroom: String,
-  messages: [msgSchema]
-})
+const Chatroom = mongoose.model('Chatroom', chatroomSchema)
 
-const Chat = mongoose.model('Chat', chatSchema)
-
-module.exports = Chat
+module.exports = Chatroom
