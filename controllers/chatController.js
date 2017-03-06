@@ -3,6 +3,7 @@ const Chatroom = require('../models/chatroom')
 const Message = require('../models/message')
 const router = express.Router()
 
+// View messages to and from authenticated user
 router.get('/', function (req, res, next) {
   // Only return one message from each conversation to display as snippet
   Chatroom.find({ participants: req.user._id })
@@ -36,8 +37,8 @@ router.get('/', function (req, res, next) {
   })
 })
 
-// get all messages in one chatroom
-router.get('/:idx', function (req, res, next) {
+// get all messages in one chatroom - Retrieve single conversation
+router.get('/:chatroomId', function (req, res, next) {
   Message.find({ chatroomId: req.params.chatroomId })
   .select('createdAt body author')
   .sort('-createdAt')
@@ -55,7 +56,7 @@ router.get('/:idx', function (req, res, next) {
 })
 
 // create new conversation
-router.post('/', function (req, res, next) {
+router.post('/new/:recipient', function (req, res, next) {
   if (!req.params.recipient) {
     res.status(422).send({ error: 'Please choose a valid recipient for your message.' })
     return next()
@@ -89,7 +90,7 @@ router.post('/', function (req, res, next) {
 })
 
 // sending/adding message
-router.post('/:idx', function (req, res, next) {
+router.post('/:chatroomId', function (req, res, next) {
   const reply = new Message({
     chatroomId: req.params.chatroomId,
     body: req.body.composedMessage,

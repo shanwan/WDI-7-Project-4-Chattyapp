@@ -3,7 +3,7 @@ const bcryptjs = require('bcryptjs')
 const emailRegex = /^([\w-.]+@([\w-]+\.)+[\w-]{2,4})?$/
 
 // create a schema
-const userSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     minlength: [3, 'Name must be between 3 and 99 characters'],
@@ -42,10 +42,10 @@ UserSchema.options.toJSON = {
   }
 }
 
-userSchema.methods.sayHello = function () {
+UserSchema.methods.sayHello = function () {
   return 'Hi ' + this.name + ', Welcome to Chatertain'
 }
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', UserSchema)
 
 module.exports = User
