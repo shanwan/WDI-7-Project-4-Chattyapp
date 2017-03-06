@@ -1,7 +1,6 @@
 const express = require('express')
 const Chatroom = require('../models/chatroom')
 const Message = require('../models/message')
-// const User = require('../models/user')
 const router = express.Router()
 
 router.get('/', function (req, res, next) {
@@ -146,3 +145,5 @@ router.post('/:idx', function (req, res, next) {
 //         });
 //   });
 // }
+
+module.exports = router
