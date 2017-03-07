@@ -34,7 +34,7 @@ router.post('/signup', function (req, res) {
 
 // to login
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/index',
   failureRedirect: '/auth/login',
   failureFlash: 'Invalid username and/or password',
   successFlash: 'You have logged in'

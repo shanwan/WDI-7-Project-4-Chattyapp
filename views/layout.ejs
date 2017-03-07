@@ -9,7 +9,12 @@
   <title>Chatertain</title>
 </head>
 <body>
-<%- body %>
+  <% include partials/navBar %>
+  <br> <br> <br>
+  <%- body %>
+  <br>
+  <% include partials/alerts %>
 </body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>

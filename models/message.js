@@ -3,11 +3,12 @@ const mongoose = require('mongoose')
 const messageSchema = new mongoose.Schema({
   chatroomId: {
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'Chatroom',
     required: true
   },
   body: {
     type: String,
-    required: true // where are the messages?
+    required: true // composedbody
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,

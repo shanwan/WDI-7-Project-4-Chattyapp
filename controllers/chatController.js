@@ -6,36 +6,42 @@ const router = express.Router()
 // View messages to and from authenticated user
 router.get('/', function (req, res, next) {
   // Only return one message from each conversation to display as snippet
+  console.log('User_id', req.user._id);
   Chatroom.find({ participants: req.user._id })
   .select('_id')
   .exec(function (err, chatrooms) {
     if (err) {
-      res.send({error: err})
-      return next(err)
+      req.flash('error', err.toString())
+      res.redirect('/index')
+      return
+      // next(err)
     }
     // Set up empty array to hold conversations + most recent message
-    let fullChatrooms = []
-    chatrooms.forEach(function (chatroom) {
-      Message.find({ 'chatroomId': chatroom._id })
-      .sort('-createdAt')
-      .limit(1)
-      .populate({
-        path: 'author',
-        select: 'profile.firstName profile.lastName'
-      })
-      .exec(function (err, message) {
-        if (err) {
-          res.send({error: err})
-          return next(err)
-        }
-        fullChatrooms.push(message)
-        if (fullChatrooms.length === chatrooms.length) {
-          return res.status(200).json({chatrooms: fullChatrooms})
-        }
+    // let fullChatrooms = []
+    // chatrooms.forEach(function (chatroom) {
+    //   Message.find({ 'chatroomId': chatroom._id })
+    //   .sort('-createdAt')
+    //   .limit(1)
+    //   .populate({
+    //     path: 'author',
+    //     select: 'profile.firstName profile.lastName'
+    //   })
+    //   .exec(function (err, message) {
+    //     if (err) {
+    //       req.flash('error', err.toString())
+    //       res.redirect('/index')
+    //       return
+    //       // next(err)
+    //     }
+    //     fullChatrooms.push(message)
+    //     if (fullChatrooms.length === chatrooms.length) {
+    //       return res.status(200).json({chatrooms: fullChatrooms})
+    //     }
+        res.render('listChat', {chatrooms: chatrooms})
       })
     })
-  })
-})
+  // })
+// })
 
 // get all messages in one chatroom - Retrieve single conversation
 router.get('/:chatroomId', function (req, res, next) {
@@ -51,8 +57,14 @@ router.get('/:chatroomId', function (req, res, next) {
       res.send({ error: err })
       return next(err)
     }
-    res.status(200).json({conversation: messages})
+    // res.status(200).json({conversation: messages})
   })
+})
+
+// brings up a new form
+router.get('/new', function (req, res, next) {
+  console.log('get new and render')
+  res.render('new')
 })
 
 // create new conversation

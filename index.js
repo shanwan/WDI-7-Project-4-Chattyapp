@@ -11,6 +11,8 @@ const ejsLayouts = require('express-ejs-layouts')
 const methodOverride = require('method-override')
 const express = require('express')
 const morgan = require('morgan')
+const socketEvents = require('./socketEvents')
+const chatController = require('./controllers/chatController')
 const app = express()
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
@@ -39,28 +41,23 @@ app.use(function (req, res, next) {
 })
 
 app.get('/', function (req, res) {
-  res.render('/auth/login')
+  res.render('auth/login')
 })
 
 app.use('/auth', userAuth)
 
-app.get('/', isLoggedIn, function (req, res) {
+app.get('/index', isLoggedIn, function (req, res) {
   res.render('index')
 })
 
-// app.use(isLoggedIn)
+app.use(isLoggedIn)
 
-// app.use('/products', productController)
+app.use('/chats', chatController)
 // app.use('/products', msgController)
 
-// below from the online tutorial
-// app.use(express.favicon())
-// app.use(app.router)
-
-// app.get('/', routes.index)
-// app.get('/users', user.list)
-
-var server = app.listen(process.env.PORT || 3000)
+const server = app.listen(process.env.PORT || 3000)
 console.log('Server UP')
-
-module.exports = server
+const io = require('socket.io').listen(server)
+console.log('websocket up')
+socketEvents(io)
+module.exports = server; io
