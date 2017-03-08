@@ -4,18 +4,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Homemade+Apple" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/style.css">
 <head>
   <title>Chatertain</title>
 </head>
 <body>
-  <% include partials/navBar %>
-  <br> <br> <br>
-  <%- body %>
-  <br>
-  <% include partials/alerts %>
-</body>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</html>
+  <!-- Navigation -->
+  <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #252120;" role="navigation" id="indexHead">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand">Chatertain</span>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav" >
+          <% if (!currentUser) { %>
+            <li>
+            <a href="/auth/login">Login</a>
+            </li>
+            <li>
+            <a href="/auth/signup">Sign up</a>
+            </li>
+            <% } %>
+            <% if (currentUser) { %>
+              <li>
+              <a href="/auth/logout">Logout</a>
+              </li>
+              <% } %>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+      </nav>
+      <br> <br> <br>
+      <%- body %>
+      <br>
+      <% include partials/alerts %>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </html>

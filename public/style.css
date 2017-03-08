@@ -1,7 +1,37 @@
 /*div {
-  border: 2px solid black;
+border: 2px solid black;
 }*/
+
+html, body {
+  background-color: #252120;
+  font-family: 'Baloo Bhaina', cursive;
+}
 
 .chat {
   height: 300px;
+}
+
+#indexHead {
+  font-family: 'Homemade Apple', cursive;
+  font-style: italic;
+  color: white;
+  text-align: right;
+}
+
+.indexImage {
+  background-image: url("img/indexImage.jpg");
+  height: 500px;
+  background-size: cover;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px rgba(0,0,0,.5);
+}
+/*font-family: 'Baloo Bhaina', cursive;
+font-family: 'Homemade Apple', cursive;*/
+
+#rightAlign {
+  text-align: right;
+}
+
+#listChat {
+  font-size: 2em;
 }

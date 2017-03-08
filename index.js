@@ -11,7 +11,6 @@ const ejsLayouts = require('express-ejs-layouts')
 const methodOverride = require('method-override')
 const express = require('express')
 const morgan = require('morgan')
-const socketEvents = require('./socketEvents')
 const chatController = require('./controllers/chatController')
 const Message = require('./models/message')
 const unirest = require('unirest')
@@ -62,7 +61,6 @@ console.log('Server UP')
 // io listens to server
 const io = require('socket.io').listen(server)
 console.log('websocket up')
-socketEvents(io)
 
 // Set socket.io listeners.
 io.on('connection', function (socket) {
