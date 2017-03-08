@@ -2,17 +2,38 @@ this is the chat room page
 
 <h1> Chat! </h1>
 
-<div>
-  <ul id="thread"></ul>
-</div>
-
 <div class="container">
-  <form action="/<%=newChatroom._id%>" method="POST">
+  <div class="chat">
+    <ul id="thread"></ul>
+    <% messages.forEach(function (msg) { %>
+      <li> <%= msg.author.profile.firstName%> : <%=msg.body %> </li>
+    <% }) %>
+  </div>
+  <form id="sendmessage" action="/<%=newChatroom._id%>" method="POST">
     <div class="form-group row">
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Enter your message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="message" value="send">
+        <input type="text" class="form-control form-control-lg" id="chat_input" placeholder="message"></input>
       </div>
+      <input type="submit" value="Submit">
     </div>
   </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/main.js"></script>
+<script>
+	var socket = io.connect('http://localhost:3000')
+
+  socket.on('broad', function(data) {
+         $('#thread').append("<li>" + data + "</li>")
+   })
+
+  $('form').submit(function(e){
+    e.preventDefault();
+    var message = $('#chat_input').val()
+    // send a message to the server with the values of the input field in messages
+    socket.emit('messages', message)
+});
+
+</script>

@@ -50,7 +50,6 @@ router.get('/new', function (req, res, next) {
   res.render('new')
 })
 
-
 // get all messages in one chatroom - Retrieve single conversation
 router.get('/:chatroomId', function (req, res, next) {
   console.log('get by chatroomId before', req.params)
@@ -70,7 +69,6 @@ router.get('/:chatroomId', function (req, res, next) {
       // next(err)
     }
     res.render('chatroom', {messages: messages, newChatroom: req.params.chatroomId})
-    // res.status(200).json({conversation: messages})
   })
 })
 

@@ -61,4 +61,24 @@ console.log('Server UP')
 const io = require('socket.io').listen(server)
 console.log('websocket up')
 socketEvents(io)
+
+// Set socket.io listeners.
+io.on('connection', function (socket) {
+  console.log('a user connected')
+  socket.on('disconnect', function () {
+    console.log('user disconnected')
+  })
+  socket.on('join', function (data) {
+    console.log(data)
+    socket.emit('messages', 'Hello from server')
+  })
+  socket.on('chat', function (msg) {
+    socket.broadcast.emit('chat', msg)
+  })
+  socket.on('messages', function (data) {
+    socket.emit('broad', data)
+    socket.broadcast.emit('broad', data)
+  })
+})
+
 module.exports = server; io

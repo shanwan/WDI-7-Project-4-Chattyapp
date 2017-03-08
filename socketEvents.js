@@ -20,4 +20,5 @@ let webSocketsExport = function (io) {
   })
 }
 
+// store connection?
 module.exports = webSocketsExport
