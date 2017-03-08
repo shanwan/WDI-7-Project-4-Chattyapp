@@ -4,6 +4,8 @@ const Chatroom = require('../models/chatroom')
 const Message = require('../models/message')
 const router = express.Router()
 
+mongoose.Promise = global.Promise
+
 // View messages to and from authenticated user
 router.get('/', function (req, res, next) {
   // Only return one message from each conversation to display as snippet
@@ -104,7 +106,8 @@ router.post('/', function (req, res, next) {
     const Messagenew = new Message({
       chatroomId: newChatroom._id,
       body: req.body.composedMessage,
-      author: req.user._id
+      author: req.user._id,
+      authorName: req.user.profile.firstName
     })
     Messagenew.save(function (err, message) {
       if (err) {
@@ -122,18 +125,22 @@ router.post('/', function (req, res, next) {
 
 // sending/adding message
 router.post('/:chatroomId', function (req, res, next) {
+  console.log('am i posting message?')
   const reply = new Message({
     chatroomId: req.params.chatroomId,
     body: req.body.composedMessage,
-    author: req.user._id
+    author: req.user._id,
+    authorName: req.user.profile.firstName
   })
-  reply.save(function (err, sentReply) {
+  reply.save(function (err, messages) {
     if (err) {
-      res.send({ error: err })
-      return next(err)
+      req.flash('error', err.toString())
+      return
+      // next(err)
     }
-    res.status(200).json({ message: 'Reply successfully sent!' })
-    return (next)
+    // res.status(200).json({ message: 'Reply successfully sent!' })
+    res.render('chatroom', {messenges: messages})
+    // return (next)
   })
 })
 

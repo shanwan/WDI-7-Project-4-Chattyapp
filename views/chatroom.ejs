@@ -4,18 +4,22 @@ this is the chat room page
 
 <div class="container">
   <div class="chat">
-    <ul id="thread"></ul>
+    <ul id="thread">
     <% messages.forEach(function (msg) { %>
-      <li> <%= msg.author.profile.firstName%> : <%=msg.body %> </li>
+      <li> <%= msg.author.profile.firstName%> : <%= msg.body %> </li>
     <% }) %>
+    </ul>
   </div>
-  <form id="sendmessage" action="/<%=newChatroom._id%>" method="POST">
+  <form id="sendmessage" action="/<%= newChatroom %>" method="POST">
     <div class="form-group row">
       <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Enter your message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control form-control-lg" id="chat_input" placeholder="message"></input>
+        <input type="text" class="form-control form-control-lg" id="chat_input" name="composedMessage" placeholder="message"></input>
+        <input type="hidden" name="chatroomId" value="<%= newChatroom %>" id="chatroomId">
+        <input type="hidden" name="author" value="<%= currentUser._id %>" id="author">
+        <input type="hidden" name="authorName" value="<%= currentUser.profile.firstName %>" id="authorName">
+        <input class="btn btn-primary" type="submit" value="Submit">
       </div>
-      <input type="submit" value="Submit">
     </div>
   </form>
 </div>
@@ -25,15 +29,16 @@ this is the chat room page
 <script>
 	var socket = io.connect('http://localhost:3000')
 
-  socket.on('broad', function(data) {
-         $('#thread').append("<li>" + data + "</li>")
-   })
+  socket.on('broad', function(messages) {
+    console.log('do you come here', messages)
+    $('#thread').prepend("<li>" + messages.authorName + " : " + messages.body + "</li>")
+  })
 
   $('form').submit(function(e){
     e.preventDefault();
-    var message = $('#chat_input').val()
+    var data = {composedMessage: $('#chat_input').val(), author: $('#author').val(), chatroomId: $('#chatroomId').val(), authorName: $('#authorName').val() }
     // send a message to the server with the values of the input field in messages
-    socket.emit('messages', message)
+    socket.emit('messages', data)
 });
 
 </script>

@@ -13,6 +13,7 @@ const express = require('express')
 const morgan = require('morgan')
 const socketEvents = require('./socketEvents')
 const chatController = require('./controllers/chatController')
+const Message = require('./models/message')
 const app = express()
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
@@ -68,16 +69,27 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected')
   })
-  socket.on('join', function (data) {
-    console.log(data)
-    socket.emit('messages', 'Hello from server')
-  })
   socket.on('chat', function (msg) {
     socket.broadcast.emit('chat', msg)
   })
   socket.on('messages', function (data) {
-    socket.emit('broad', data)
-    socket.broadcast.emit('broad', data)
+    // socket.emit('broad', data)
+    console.log('am i posting new msg into database?', data)
+    const reply = new Message({
+      chatroomId: data.chatroomId,
+      body: data.composedMessage,
+      author: data.author,
+      authorName: data.authorName
+    })
+    reply.save(function (err, messages) {
+      if (err) {
+        console.log(err)
+        return
+        // next(err)
+      }
+      console.log('is this broadcasting?', messages)
+      socket.emit('broad', messages)
+    })
   })
 })
 

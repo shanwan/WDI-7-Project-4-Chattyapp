@@ -13,6 +13,9 @@ const messageSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
+  },
+  authorName: {
+    type: String
   }
 },
   {

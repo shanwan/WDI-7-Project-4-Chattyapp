@@ -18,14 +18,7 @@ const UserSchema = new mongoose.Schema({
   profile: {
     firstName: { type: String },
     lastName: { type: String }
-  },
-  role: { // what is this??
-    type: String,
-    enum: ['Member', 'Client', 'Owner', 'Admin'],
-    default: 'Member'
-  },
-  resetPasswordToken: { type: String },
-  resetPasswordExpires: { type: Date }
+  }
 },
   {
     timestamps: true
