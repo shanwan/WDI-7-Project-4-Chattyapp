@@ -57,6 +57,7 @@ app.use('/chats', chatController)
 
 const server = app.listen(process.env.PORT || 3000)
 console.log('Server UP')
+// io listens to server
 const io = require('socket.io').listen(server)
 console.log('websocket up')
 socketEvents(io)

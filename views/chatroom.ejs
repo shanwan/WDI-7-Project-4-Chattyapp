@@ -1,0 +1,18 @@
+this is the chat room page
+
+<h1> Chat! </h1>
+
+<div>
+  <ul id="thread"></ul>
+</div>
+
+<div class="container">
+  <form action="/<%=newChatroom._id%>" method="POST">
+    <div class="form-group row">
+      <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Enter your message</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control form-control-lg" id="lgFormGroupInput" placeholder="message" value="send">
+      </div>
+    </div>
+  </form>
+</div>

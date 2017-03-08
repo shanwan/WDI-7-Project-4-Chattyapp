@@ -1,2 +1,6 @@
 this lists the chat that the user is in
-<%= chatrooms[0] %>
+
+<% chatrooms.forEach(function (item) { %>
+  <%=item.id%>
+  <div><a href="/chats/<%=item._id%>">Click to enter</a></div>
+  <% }) %>
