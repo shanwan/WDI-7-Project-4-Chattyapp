@@ -56,7 +56,7 @@ router.get('/new', function (req, res, next) {
 router.get('/:chatroomId', function (req, res, next) {
   console.log('get by chatroomId before', req.params)
   Message.find({ chatroomId: req.params.chatroomId })
-  .select('createdAt body author')
+  .select('createdAt body author translate, ``')
   .sort('-createdAt')
   .populate({
     path: 'author',
@@ -139,7 +139,7 @@ router.post('/:chatroomId', function (req, res, next) {
       // next(err)
     }
     // res.status(200).json({ message: 'Reply successfully sent!' })
-    res.render('chatroom', {messenges: messages})
+    res.render('chatroom', {messages: messages})
     // return (next)
   })
 })

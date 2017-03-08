@@ -16,6 +16,9 @@ const messageSchema = new mongoose.Schema({
   },
   authorName: {
     type: String
+  },
+  translate: {
+    type: String
   }
 },
   {
