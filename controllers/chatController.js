@@ -105,7 +105,7 @@ router.post('/', function (req, res, next) {
     }
     console.log('am i creating new message with the new chatroom?')
     const Messagenew = new Message({
-      chatroomId: newChatroom._id,
+      chatroomId: mongoose.Types.ObjectId(newChatroom._id),
       body: req.body.composedMessage,
       author: req.user._id,
       authorName: req.user.profile.firstName

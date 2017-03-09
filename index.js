@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
       // console.log('what is result from API?', result.status, result.headers, result.body)
       console.log('am i posting new msg into database?', data)
       const reply = new Message({
-        chatroomId: data.chatroomId,
+        chatroomId: mongoose.Types.ObjectId(data.chatroomId),
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,
