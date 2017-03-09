@@ -44,7 +44,7 @@ UserSchema.options.toJSON = {
 }
 
 UserSchema.methods.sayHello = function () {
-  return 'Hi ' + this.name + ', Welcome to Chatertain'
+  return 'Hi ' + this.name + ', Welcome to Chatty'
 }
 
 const User = mongoose.model('User', UserSchema)

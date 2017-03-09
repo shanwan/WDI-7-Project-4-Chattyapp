@@ -6,7 +6,7 @@ const router = express.Router()
 
 mongoose.Promise = global.Promise
 
-// View messages to and from authenticated user
+// View list of chatrooms
 router.get('/', function (req, res, next) {
   // Only return one message from each conversation to display as snippet
   console.log('User_id', req.user._id)
@@ -56,11 +56,11 @@ router.get('/new', function (req, res, next) {
 router.get('/:chatroomId', function (req, res, next) {
   console.log('get by chatroomId before', req.params)
   Message.find({ chatroomId: req.params.chatroomId })
-  .select('createdAt body author translate, ``')
+  .select('createdAt body author translate authorName chatroomId')
   .sort('-createdAt')
   .populate({
-    path: 'author',
-    select: 'profile.firstName profile.lastName'
+    path: 'author chatroomId',
+    select: 'profile.firstName profile.lastName participants'
   })
   .exec(function (err, messages) {
     console.log('what is messages?', messages)
@@ -103,13 +103,14 @@ router.post('/', function (req, res, next) {
       return
       // next(err)
     }
+    console.log('am i creating new message with the new chatroom?')
     const Messagenew = new Message({
       chatroomId: newChatroom._id,
       body: req.body.composedMessage,
       author: req.user._id,
       authorName: req.user.profile.firstName
     })
-    Messagenew.save(function (err, message) {
+    Messagenew.save(function (err, messages) {
       if (err) {
         req.flash('error', err.toString())
         res.redirect('/chats/new')
@@ -117,15 +118,15 @@ router.post('/', function (req, res, next) {
         // next(err)
       }
       req.flash('success', 'Conversation started!')
-      res.render('chatroom', {newChatroom: newChatroom, message: message})
-      return next()
+      res.render('chatroom', {newChatroom: newChatroom, messages: messages})
+      // return next()
     })
   })
 })
 
 // sending/adding message
 router.post('/:chatroomId', function (req, res, next) {
-  console.log('am i posting message?')
+  console.log('am i posting a reply message?')
   const reply = new Message({
     chatroomId: req.params.chatroomId,
     body: req.body.composedMessage,
@@ -144,45 +145,47 @@ router.post('/:chatroomId', function (req, res, next) {
   })
 })
 
-// // DELETE Route to Delete Conversation
-// exports.deleteConversation = function(req, res, next) {
-//   Conversation.findOneAndRemove({
-//     $and : [
-//             { '_id': req.params.conversationId }, { 'participants': req.user._id }
-//            ]}, function(err) {
-//         if (err) {
-//           res.send({ error: err });
-//           return next(err);
-//         }
-//
-//         res.status(200).json({ message: 'Conversation removed!' });
-//         return next();
-//   });
-// }
+// DELETE Route to Delete Conversation
+router.delete('/:chatroomId', function (req, res, next) {
+  console.log('to delete the chatroom')
+  Chatroom.findOneAndRemove({
+    $and: [
+      { _id: req.params.chatroomId }, { participants: req.user._id }
+    ]}, function (err) {
+    if (err) {
+      req.flash('error', err.toString())
+      res.redirect('/chats')
+      return
+      // next(err)
+    }
+    req.flash('success', 'You have deleted the chatroom.')
+    res.redirect('/chats')
+  })
+})
 
-// // PUT Route to Update Message
-// exports.updateMessage = function(req, res, next) {
-//   Conversation.find({
-//     $and : [
-//             { '_id': req.params.messageId }, { 'author': req.user._id }
-//           ]}, function(err, message) {
-//         if (err) {
-//           res.send({ error: err});
-//           return next(err);
-//         }
-//
-//         message.body = req.body.composedMessage;
-//
-//         message.save(function (err, updatedMessage) {
-//           if (err) {
-//             res.send({ error: err });
-//             return next(err);
-//           }
-//
-//           res.status(200).json({ message: 'Message updated!' });
-//           return next();
-//         });
-//   });
-// }
+  // // PUT Route to Update Message
+  // exports.updateMessage = function(req, res, next) {
+  //   Conversation.find({
+  //     $and : [
+  //             { '_id': req.params.messageId }, { 'author': req.user._id }
+  //           ]}, function(err, message) {
+  //         if (err) {
+  //           res.send({ error: err});
+  //           return next(err);
+  //         }
+  //
+  //         message.body = req.body.composedMessage;
+  //
+  //         message.save(function (err, updatedMessage) {
+  //           if (err) {
+  //             res.send({ error: err });
+  //             return next(err);
+  //           }
+  //
+  //           res.status(200).json({ message: 'Message updated!' });
+  //           return next();
+  //         });
+  //   });
+  // }
 
-module.exports = router
+  module.exports = router

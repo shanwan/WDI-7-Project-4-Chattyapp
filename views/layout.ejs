@@ -4,14 +4,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Homemade+Apple" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina|Molle:400i" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/style.css">
 <head>
-  <title>Chatertain</title>
+  <title>Chatty</title>
 </head>
 <body>
   <!-- Navigation -->
-  <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #252120;" role="navigation" id="indexHead">
+  <nav class="navbar navbar-light navbar-fixed-top" style="background-color: #A7d2cb;" role="navigation" id="indexHead">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -21,7 +21,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <span class="navbar-brand">Chatertain</span>
+        <span class="navbar-brand">Chatty</span>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -38,6 +38,12 @@
               <li>
               <a href="/auth/logout">Logout</a>
               </li>
+              <li>
+              <a href="/chats/new">Create New Chatrom</a>
+              </li>
+              <li>
+              <a href="/chats">List Chatrooms</a>
+              </li>
               <% } %>
             </ul>
           </div>
@@ -46,9 +52,9 @@
         <!-- /.container -->
       </nav>
       <br> <br> <br>
+      <% include partials/alerts %>
       <%- body %>
       <br>
-      <% include partials/alerts %>
     </body>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

@@ -3,35 +3,73 @@ border: 2px solid black;
 }*/
 
 html, body {
-  background-color: #252120;
+  background-color: #A7d2cb;
   font-family: 'Baloo Bhaina', cursive;
+}
+
+body {
+  color: #C98474;
 }
 
 .chat {
   height: 300px;
+  background-color: white;
+  width: 77%;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+  border-radius: 20px/60px;
+  padding-top: 15px;
 }
 
-#indexHead {
-  font-family: 'Homemade Apple', cursive;
-  font-style: italic;
-  color: white;
-  text-align: right;
-}
+.chatContainer {
+  /*background-color: #F2d388;*/
+  -webkit-box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 1px 6px rgba(23, 69, 88, .5);
+  border-radius: 7px;
+  background: -webkit-gradient(linear, left top, left bottom,
+    color-stop(0%, white), color-stop(15%, white), color-stop(100%, #F2d388));
+    background: -moz-linear-gradient(top, white 0%, white 55%, #F2d388 130%);
+  }
 
-.indexImage {
-  background-image: url("img/indexImage.jpg");
-  height: 500px;
-  background-size: cover;
-  border-radius: 20px;
-  box-shadow: 5px 5px 10px rgba(0,0,0,.5);
-}
-/*font-family: 'Baloo Bhaina', cursive;
-font-family: 'Homemade Apple', cursive;*/
+  #indexHead {
+    font-family: 'Molle', cursive;
+    font-style: italic;
+    color: white;
+    text-align: right;
+  }
 
-#rightAlign {
-  text-align: right;
-}
+  .indexImage {
+    background-image: url("img/yoda1.jpg");
+    height: 350px;
+    width: 60%;
+    background-size: contain;
+    background-repeat: repeat-y;
+    border-radius: 15px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.5);
+  }
+  /*font-family: 'Baloo Bhaina', cursive;
+  font-family: 'Homemade Apple', cursive;*/
 
-#listChat {
-  font-size: 2em;
-}
+  #rightAlign {
+    text-align: right;
+  }
+
+  #listChat {
+    font-size: 2em;
+  }
+
+  #listChatImg {
+    background-image: url("img/dog2.jpg");
+    height: 350px;
+    background-size: cover;
+    background-repeat: repeat-y;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,.5);
+  }
+
+  .navbar, .navbar-brand {
+    font-size: 1.5em;
+  }
+
+  /*div {
+  border: 2px solid black;
+  }*/
