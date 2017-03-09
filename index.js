@@ -16,7 +16,7 @@ const Message = require('./models/message')
 const unirest = require('unirest')
 const app = express()
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
+mongoose.connect(process.env.MONGODB_ROSE_URI || 'mongodb://localhost/chatertain')
 
 mongoose.Promise = global.Promise
 app.set('view engine', 'ejs')
@@ -54,7 +54,6 @@ app.get('/index', isLoggedIn, function (req, res) {
 app.use(isLoggedIn)
 
 app.use('/chats', chatController)
-// app.use('/products', msgController)
 
 const server = app.listen(process.env.PORT || 3000)
 console.log('Server UP')
