@@ -32,7 +32,6 @@
   },
   "engines" : {
     "node" : "^7.5.0"
-    }
   },
   "author": "Loo Wan Shan",
   "license": "ISC",
