@@ -56,8 +56,8 @@
         console.log('have i submitted the form?')
         var data = {composedMessage: $('#chat_input').val(), author: $('#author').val(), chatroomId: $('#chatroomId').val(), authorName: $('#authorName').val() }
         // send a message to the server with the values of the input field in messages
-        console.log('have i submitted the form?')
         socket.emit('messages', data)
+        $('#chat_input').val("")
       })
 
       var toSpeakMsg = []
