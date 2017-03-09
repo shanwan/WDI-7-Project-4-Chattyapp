@@ -148,18 +148,28 @@ router.post('/:chatroomId', function (req, res, next) {
 // DELETE Route to Delete Conversation
 router.delete('/:chatroomId', function (req, res, next) {
   console.log('to delete the chatroom')
-  Chatroom.findOneAndRemove({
-    $and: [
-      { _id: req.params.chatroomId }, { participants: req.user._id }
-    ]}, function (err) {
+  Message.find({ chatroomId: req.params.chatroomId }).remove().exec(function (err, messages) {
+    console.log('I am deleting messages now!')
     if (err) {
       req.flash('error', err.toString())
-      res.redirect('/chats')
+      res.redirect('/index')
       return
       // next(err)
     }
-    req.flash('success', 'You have deleted the chatroom.')
-    res.redirect('/chats')
+    console.log('I am deleting chatroom now!')
+    Chatroom.findOneAndRemove({
+      $and: [
+        { _id: req.params.chatroomId }, { participants: req.user._id }
+      ]}, function (err) {
+      if (err) {
+        req.flash('error', err.toString())
+        res.redirect('/chats')
+        return
+        // next(err)
+      }
+      req.flash('success', 'You have deleted the chatroom and the messages.')
+      res.redirect('/chats')
+    })
   })
 })
 
