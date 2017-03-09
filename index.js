@@ -16,7 +16,7 @@ const Message = require('./models/message')
 const unirest = require('unirest')
 const app = express()
 
-mongoose.connect(process.env.MONGODB_ROSE_URI || 'mongodb://localhost/chatertain')
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
 
 mongoose.Promise = global.Promise
 app.set('view engine', 'ejs')
