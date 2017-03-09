@@ -5,14 +5,23 @@ html, body {
 
 body {
   color: #C98474;
+  margin:0;
+  padding:0;
+  height:100%;
+}
+
+.content {
+  min-height:100%;
+	position:relative;
+  padding-bottom:100px;
 }
 
 .chat {
   height: 300px;
   background-color: white;
+  background-size: auto;
   width: 77%;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-  border-radius: 20px/60px;
   padding-top: 15px;
   overflow: auto;
 }
@@ -78,4 +87,15 @@ body {
 
   legend {
     color: #874c62;
+  }
+
+  .footer-bottom {
+    font-family: 'Molle', cursive;
+    background-color: #874c62;
+    min-height: 30px;
+    width: 100%;
+    position:absolute;
+    bottom:0;
+    left:0;
+    /*height: 50px;*/
   }

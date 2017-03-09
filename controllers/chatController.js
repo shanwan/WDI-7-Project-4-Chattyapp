@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Chatroom = require('../models/chatroom')
+const User = require('../models/user')
 const Message = require('../models/message')
 const router = express.Router()
 
@@ -19,32 +20,9 @@ router.get('/', function (req, res, next) {
       return
       // next(err)
     }
-    // Set up empty array to hold conversations + most recent message
-    // let fullChatrooms = []
-    // chatrooms.forEach(function (chatroom) {
-    //   Message.find({ 'chatroomId': chatroom._id })
-    //   .sort('-createdAt')
-    //   .limit(1)
-    //   .populate({
-    //     path: 'author',
-    //     select: 'profile.firstName profile.lastName'
-    //   })
-    //   .exec(function (err, message) {
-    //     if (err) {
-    //       req.flash('error', err.toString())
-    //       res.redirect('/index')
-    //       return
-    //       // next(err)
-    //     }
-    //     fullChatrooms.push(message)
-    //     if (fullChatrooms.length === chatrooms.length) {
-    //       return res.status(200).json({chatrooms: fullChatrooms})
-    //     }
     res.render('listChat', {chatrooms: chatrooms})
   })
 })
-// })
-// })
 
 // brings up a new form
 router.get('/new', function (req, res, next) {
@@ -60,7 +38,7 @@ router.get('/:chatroomId', function (req, res, next) {
   .sort('-createdAt')
   .populate({
     path: 'author chatroomId',
-    select: 'profile.firstName profile.lastName participants'
+    select: 'firstName lastName participants'
   })
   .exec(function (err, messages) {
     console.log('what is messages?', messages)
@@ -74,7 +52,7 @@ router.get('/:chatroomId', function (req, res, next) {
   })
 })
 
-// create new conversation
+// create new chatroom
 router.post('/', function (req, res, next) {
   console.log('are we posting new conversation?')
   console.log('who is picked?', req.body.recipient)
@@ -91,35 +69,43 @@ router.post('/', function (req, res, next) {
     return
     // next()
   }
-  console.log(mongoose.Types.ObjectId(req.user._id))
-  console.log(mongoose.Types.ObjectId(req.body.recipient))
-  const Chatroomnew = new Chatroom({
-    participants: [mongoose.Types.ObjectId(req.user._id), mongoose.Types.ObjectId(req.body.recipient)]
-  })
-  Chatroomnew.save(function (err, newChatroom) {
+  User.findOne({ firstName: req.body.recipient }, '_id', function (err, selectedUser) {
+    console.log('who is the selectedUser?', selectedUser)
     if (err) {
       req.flash('error', err.toString())
       res.redirect('/chats/new')
       return
-      // next(err)
     }
-    console.log('am i creating new message with the new chatroom?')
-    const Messagenew = new Message({
-      chatroomId: mongoose.Types.ObjectId(newChatroom._id),
-      body: req.body.composedMessage,
-      author: req.user._id,
-      authorName: req.user.profile.firstName
+    // console.log(mongoose.Types.ObjectId(req.user._id))
+    // console.log(mongoose.Types.ObjectId(req.body.recipient))
+    const Chatroomnew = new Chatroom({
+      participants: [mongoose.Types.ObjectId(req.user._id), mongoose.Types.ObjectId(selectedUser._id)]
     })
-    Messagenew.save(function (err, messages) {
+    Chatroomnew.save(function (err, newChatroom) {
       if (err) {
         req.flash('error', err.toString())
         res.redirect('/chats/new')
         return
         // next(err)
       }
-      req.flash('success', 'Conversation started!')
-      res.render('chatroom', {newChatroom: newChatroom, messages: messages})
-      // return next()
+      console.log('am i creating new message with the new chatroom?')
+      const Messagenew = new Message({
+        chatroomId: mongoose.Types.ObjectId(newChatroom._id),
+        body: req.body.composedMessage,
+        author: req.user._id,
+        authorName: req.user.firstName
+      })
+      Messagenew.save(function (err, messages) {
+        if (err) {
+          req.flash('error', err.toString())
+          res.redirect('/chats/new')
+          return
+          // next(err)
+        }
+        req.flash('success', 'Conversation started!')
+        res.render('chatroom', {newChatroom: newChatroom, messages: messages})
+        // return next()
+      })
     })
   })
 })
@@ -131,7 +117,7 @@ router.post('/:chatroomId', function (req, res, next) {
     chatroomId: req.params.chatroomId,
     body: req.body.composedMessage,
     author: req.user._id,
-    authorName: req.user.profile.firstName
+    authorName: req.user.firstName
   })
   reply.save(function (err, messages) {
     if (err) {
@@ -161,17 +147,17 @@ router.delete('/:chatroomId', function (req, res, next) {
       $and: [
         { _id: req.params.chatroomId }, { participants: req.user._id }
       ]}, function (err) {
-      if (err) {
-        req.flash('error', err.toString())
+        if (err) {
+          req.flash('error', err.toString())
+          res.redirect('/chats')
+          return
+          // next(err)
+        }
+        req.flash('success', 'You have deleted the chatroom and the messages.')
         res.redirect('/chats')
-        return
-        // next(err)
-      }
-      req.flash('success', 'You have deleted the chatroom and the messages.')
-      res.redirect('/chats')
+      })
     })
   })
-})
 
   // // PUT Route to Update Message
   // exports.updateMessage = function(req, res, next) {
@@ -198,4 +184,4 @@ router.delete('/:chatroomId', function (req, res, next) {
   //   });
   // }
 
-module.exports = router
+  module.exports = router

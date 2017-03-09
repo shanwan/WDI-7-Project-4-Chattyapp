@@ -67,17 +67,17 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected')
   })
-  socket.on('chat', function (msg) {
-    socket.broadcast.emit('chat', msg)
-  })
   socket.on('messages', function (data) {
     // socket.emit('broad', data)
-    console.log('am i consuming API?')
+    // console.log('am i consuming API?')
     unirest.get('https://yoda.p.mashape.com/yoda?sentence=' + data.composedMessage)
     .header('X-Mashape-Key', '5ZGQXOI7M0mshOp7RqMZoqeoWvrwp15JVFLjsnBzw4v4s1bi6p')
+    // unirest.get('http://api.funtranslations.com/translate/pirate.json?text=' + data.composedMessage)
     .header('Accept', 'text/plain')
     .end(function (result) {
-      console.log('am i consuming API?', result.body)
+      console.log('am i consuming API?')
+      // let accessTranslate = JSON.parse(JSON.stringify(result.body))
+      // JSON.stringify(accessTranslate.contents.translated)
       // console.log('what is result from API?', result.status, result.headers, result.body)
       console.log('am i posting new msg into database?', data)
       const reply = new Message({
@@ -85,7 +85,8 @@ io.on('connection', function (socket) {
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,
-        translate: result.body
+        translate: result.body,
+        pickedTranslation: data.pickedTranslation
       })
       reply.save(function (err, messages) {
         if (err) {
@@ -93,7 +94,7 @@ io.on('connection', function (socket) {
           return
           // next(err)
         }
-        console.log('is this broadcasting?', messages)
+        console.log('is this broadcasting?')
         socket.emit('broad', messages)
       })
     })

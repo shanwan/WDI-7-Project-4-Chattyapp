@@ -15,10 +15,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  profile: {
-    firstName: { type: String },
-    lastName: { type: String }
-  }
+  firstName: {
+    type: String,
+    unique: true
+  },
+  lastName: { type: String }
 },
   {
     timestamps: true
@@ -44,7 +45,7 @@ UserSchema.options.toJSON = {
 }
 
 UserSchema.methods.sayHello = function () {
-  return 'Hi ' + this.name + ', Welcome to Chatty'
+  return 'Hi ' + this.firstName + ', Welcome to Chatty'
 }
 
 const User = mongoose.model('User', UserSchema)

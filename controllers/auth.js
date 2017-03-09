@@ -14,18 +14,17 @@ router.get('/login', function (req, res) {
 router.post('/signup', function (req, res) {
   User.create({
     email: req.body.email,
-    firstName: req.body.profile.firstName,
-    lastName: req.body.profile.lastName,
-    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     password: req.body.password
   }, function (err, createdUser) {
     if (err) {
-      req.flash('error', 'Could not create user account')
+      req.flash('error', err.toString())
       res.redirect('/auth/signup')
     } else {
       passport.authenticate('local', {
         successRedirect: '/chats',
-        successFlash: 'Account created and logged in'
+        successFlash: 'Account created and logged in.'
       })(req, res)
     }
   })
@@ -36,7 +35,7 @@ router.post('/login', passport.authenticate('local', {
   successRedirect: '/index',
   failureRedirect: '/auth/login',
   failureFlash: 'Invalid username and/or password',
-  successFlash: 'You have logged in'
+  successFlash: 'You have logged in.'
 })
 )
 
