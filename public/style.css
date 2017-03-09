@@ -73,3 +73,7 @@ body {
   /*div {
   border: 2px solid black;
   }*/
+
+  legend {
+    color: #874c62;
+  }

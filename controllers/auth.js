@@ -17,15 +17,14 @@ router.post('/signup', function (req, res) {
     firstName: req.body.profile.firstName,
     lastName: req.body.profile.lastName,
     username: req.body.username,
-    password: req.body.password,
-    role: req.body.role
+    password: req.body.password
   }, function (err, createdUser) {
     if (err) {
       req.flash('error', 'Could not create user account')
       res.redirect('/auth/signup')
     } else {
       passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/chats',
         successFlash: 'Account created and logged in'
       })(req, res)
     }
