@@ -16,6 +16,8 @@ const Message = require('./models/message')
 const unirest = require('unirest')
 const app = express()
 
+mongoose.Promise = global.Promise
+
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
 
 mongoose.Promise = global.Promise
@@ -25,7 +27,6 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
-console.dir('what is in secret?', process.env.SESSION_SECRET)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
