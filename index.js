@@ -86,7 +86,11 @@ io.on('connection', function (socket) {
       // console.log('what is result from API?', result.status, result.headers, result.body)
       console.log('am i posting new msg into database?', data)
       const reply = new Message({
+<<<<<<< HEAD
         chatroomId: mongoose.Types.ObjectId(data.chatroomId._id),
+=======
+        chatroomId: data.chatroomId,
+>>>>>>> parent of 8ae76eb... adds voice
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,

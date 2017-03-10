@@ -76,10 +76,12 @@ router.post('/', function (req, res, next) {
       res.redirect('/chats/new')
       return
     }
-    // console.log(mongoose.Types.ObjectId(req.user._id))
-    // console.log(mongoose.Types.ObjectId(req.body.recipient))
-    const Chatroomnew = new Chatroom({
-      participants: [mongoose.Types.ObjectId(req.user._id), mongoose.Types.ObjectId(selectedUser._id)]
+    console.log('am i creating new message with the new chatroom?')
+    const Messagenew = new Message({
+      chatroomId: newChatroom._id,
+      body: req.body.composedMessage,
+      author: req.user._id,
+      authorName: req.user.profile.firstName
     })
     Chatroomnew.save(function (err, newChatroom) {
       if (err) {

@@ -1,6 +1,7 @@
 <div class="container">
-  <div class="col-md-1">
+  <div class="col-md-2">
   </div>
+<<<<<<< HEAD
   <div class="listChatContainer col-md-10">
     <div class="forTheList col-md-7">
       <% if (chatrooms.length > 0) { %>
@@ -23,3 +24,22 @@
           </div>
         </div>
       </div>
+=======
+  <div class="col-md-4">
+    <% chatrooms.forEach(function (item, i) { %>
+      <form method="POST" action="/chats/<%= item._id %>?_method=DELETE">
+      <div id="listChat" class="col-md-8"><a href="/chats/<%= item._id %>"> Chat Room: <%= i %></a>
+      <input type="hidden" name="id" value="<%= item._id %>">
+      </div>
+      <div class="col-md-4">
+      <input class="btn btn-default" type="submit" value="Delete">
+      </div>
+      </form>
+      <% }) %>
+    </div>
+    <div class="col-md-4" id="listChatImg">
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>
+>>>>>>> parent of 8ae76eb... adds voice

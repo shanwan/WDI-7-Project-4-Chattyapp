@@ -4,6 +4,7 @@
 
   <div class="container">
     <div class="chat col-xs-offset-1">
+<<<<<<< HEAD
       <div class="english col-xs-6">
         <ul id="threadEnglish">
           <%  if (messages.length > 1) { %>
@@ -16,6 +17,31 @@
                 <div> <%= messages.authorName%> : <%= messages.body %> </div>
                 <% } %>
               </ul>
+=======
+      <ul id="thread">
+        <%  if (messages.length > 1) { %>
+          <% messages.forEach(function (msg) { %>
+            <% console.log('what is msg on the chatroom?', msg.authorName, msg.body, msg.translate, msg.chatroomId) %>
+            <div> <%= msg.authorName %> : <%= msg.body %> : <%= msg.translate %> </div>
+            <% }) %>
+            <%  } else { %>
+              <% console.log('what is message on the chatroom?', messages.authorName, messages.body, messages.translate) %>
+              <div> <%= messages.authorName%> : <%= messages.body %> : <%= messages.translate %> </div>
+              <% } %>
+            </ul>
+          </div>
+          <br>
+          <form id="sendmessage">
+            <div class="form-group row col-xs-offset-1">
+              <label for="lgFormGroupInput" class="col-sm-2 col-form-label col-form-label-lg">Enter your message</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control form-control-lg" id="chat_input" name="composedMessage" placeholder="message"></input>
+                <input type="hidden" name="chatroomId" value="<%= newChatroom %>" id="chatroomId">
+                <input type="hidden" name="author" value="<%= currentUser._id %>" id="author">
+                <input type="hidden" name="authorName" value="<%= currentUser.profile.firstName %>" id="authorName"> <br>
+                <input class="btn btn-primary" type="submit" value="Submit">
+              </div>
+>>>>>>> parent of 8ae76eb... adds voice
             </div>
             <div class="yoda col-xs-6">
               <ul id="threadYoda">
@@ -52,6 +78,7 @@
                 </div>
               </div>
 
+<<<<<<< HEAD
               <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
               <script src="/socket.io/socket.io.js"></script>
               <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
@@ -75,6 +102,19 @@
                 socket.emit('messages', data)
                 $('#chat_input').val("")
               })
+=======
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/main.js"></script>
+      <script>
+      const socket = io.connect('http://localhost:3000')
+
+      socket.on('broad', function(messages) {
+        console.log('do you come here', messages)
+        $('#thread').prepend("<div>" + messages.authorName + " : " + messages.body + "</div>")
+        $('#thread').prepend("<div>" + messages.authorName + " : " + messages.translate + "</div>")
+      })
+>>>>>>> parent of 8ae76eb... adds voice
 
               $('#yoda').click(function(e){
                 console.log('clicked to yoda')
@@ -84,6 +124,7 @@
                 })
               })
 
+<<<<<<< HEAD
               var toSpeakMsg = []
               $('#start').click(function(e){
                 console.log('clicked to start')
@@ -112,3 +153,6 @@
               })
 
               </script>
+=======
+      </script>
+>>>>>>> parent of 8ae76eb... adds voice
