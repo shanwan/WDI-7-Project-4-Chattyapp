@@ -25,6 +25,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+console.dir('what is in secret?', process.env.SESSION_SECRET)
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
