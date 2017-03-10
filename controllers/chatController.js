@@ -147,17 +147,17 @@ router.delete('/:chatroomId', function (req, res, next) {
       $and: [
         { _id: req.params.chatroomId }, { participants: req.user._id }
       ]}, function (err) {
-        if (err) {
-          req.flash('error', err.toString())
-          res.redirect('/chats')
-          return
-          // next(err)
-        }
-        req.flash('success', 'You have deleted the chatroom and the messages.')
+      if (err) {
+        req.flash('error', err.toString())
         res.redirect('/chats')
-      })
+        return
+          // next(err)
+      }
+      req.flash('success', 'You have deleted the chatroom and the messages.')
+      res.redirect('/chats')
     })
   })
+})
 
   // // PUT Route to Update Message
   // exports.updateMessage = function(req, res, next) {
@@ -184,4 +184,4 @@ router.delete('/:chatroomId', function (req, res, next) {
   //   });
   // }
 
-  module.exports = router
+module.exports = router

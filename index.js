@@ -67,6 +67,9 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected')
   })
+  socket.on('chat', function (msg) {
+    socket.broadcast.emit('chat', msg)
+  })
   socket.on('messages', function (data) {
     // socket.emit('broad', data)
     // console.log('am i consuming API?')
@@ -81,12 +84,11 @@ io.on('connection', function (socket) {
       // console.log('what is result from API?', result.status, result.headers, result.body)
       console.log('am i posting new msg into database?', data)
       const reply = new Message({
-        chatroomId: mongoose.Types.ObjectId(data.chatroomId),
+        chatroomId: mongoose.Types.ObjectId(data.chatroomId._id),
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,
-        translate: result.body,
-        pickedTranslation: data.pickedTranslation
+        translate: result.body
       })
       reply.save(function (err, messages) {
         if (err) {
@@ -96,6 +98,7 @@ io.on('connection', function (socket) {
         }
         console.log('is this broadcasting?')
         socket.emit('broad', messages)
+        // socket.broadcast.emit('broad', messages)
       })
     })
   })

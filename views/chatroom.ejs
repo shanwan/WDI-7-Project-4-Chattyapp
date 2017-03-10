@@ -8,9 +8,11 @@
         <ul id="threadEnglish">
           <%  if (messages.length > 1) { %>
             <% messages.forEach(function (msg) { %>
+              <% console.log(messages, msg, 'trying to find my data!!!') %>
               <div> <%= msg.authorName %> : <%= msg.body %> </div>
               <% }) %>
               <%  } else { %>
+                <% console.log(messages, 'trying to find my data3!!!') %>
                 <div> <%= messages.authorName%> : <%= messages.body %> </div>
                 <% } %>
               </ul>
@@ -19,9 +21,11 @@
               <ul id="threadYoda">
                 <%  if (messages.length > 1) { %>
                   <% messages.forEach(function (msg) { %>
+                    <% console.log(messages, msg, 'trying to find my data2!!!') %>
                     <div> <%= msg.authorName %> : <%= msg.translate %> </div>
                     <% }) %>
                     <%  } else { %>
+                      <% console.log(messages, 'trying to find my data4!!!') %>
                       <div> <%= messages.authorName%> : <%= messages.translate %> </div>
                       <% } %>
                     </ul>
@@ -37,9 +41,7 @@
                         <input type="hidden" name="chatroomId" value="<%= newChatroom %>" id="chatroomId">
                         <input type="hidden" name="author" value="<%= currentUser._id %>" id="author">
                         <input type="hidden" name="authorName" value="<%= currentUser.firstName %>" id="authorName"> <br>
-                        <input class="btn btn-primary" type="submit" value="Yoda" id="pickedTranslation">
-                        <%# <input class="btn btn-primary" type="submit" value="Pirate" id="pickedTranslation">
-                        <input class="btn btn-primary" type="submit" value="Shakespeare" id="pickedTranslation">%>
+                        <input class="btn btn-primary" type="submit" value="Yoda">
                         <button class="btn btn-primary" type="submit" id="start"> Start Speak </button>
                         <button class="btn btn-primary" type="submit" id="clear"> Clear Speak </button>
                         <button class="btn btn-primary" type="submit" id="pause"> Pause Speak </button>
