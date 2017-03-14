@@ -97,6 +97,7 @@ router.post('/', function (req, res, next) {
 // sending/adding message
 router.post('/:chatroomId', function (req, res, next) {
   console.log('am i posting a reply message?')
+  console.log('am i posting a reply message to the correct chatroom?', req.params.chatroomId)
   const reply = new Message({
     chatroomId: req.params.chatroomId,
     body: req.body.composedMessage,
