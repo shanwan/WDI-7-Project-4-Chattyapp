@@ -20,7 +20,6 @@ mongoose.Promise = global.Promise
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
 
-mongoose.Promise = global.Promise
 app.set('view engine', 'ejs')
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -69,28 +68,22 @@ io.on('connection', function (socket) {
   socket.on('disconnect', function () {
     console.log('user disconnected')
   })
+  // on chat to start messages
   socket.on('chat', function (msg) {
-    socket.broadcast.emit('chat', msg)
+    socket.emit('chat', msg)
   })
   socket.on('messages', function (data) {
-    // socket.emit('broad', data)
-    // console.log('am i consuming API?')
+    socket.emit('broad', data)
+    // get API translation
+    console.log('am i consuming API?')
     unirest.get('https://yoda.p.mashape.com/yoda?sentence=' + data.composedMessage)
     .header('X-Mashape-Key', '5ZGQXOI7M0mshOp7RqMZoqeoWvrwp15JVFLjsnBzw4v4s1bi6p')
-    // unirest.get('http://api.funtranslations.com/translate/pirate.json?text=' + data.composedMessage)
     .header('Accept', 'text/plain')
     .end(function (result) {
       console.log('am i consuming API?')
-      // let accessTranslate = JSON.parse(JSON.stringify(result.body))
-      // JSON.stringify(accessTranslate.contents.translated)
-      // console.log('what is result from API?', result.status, result.headers, result.body)
       console.log('am i posting new msg into database?', data)
       const reply = new Message({
-<<<<<<< HEAD
         chatroomId: mongoose.Types.ObjectId(data.chatroomId._id),
-=======
-        chatroomId: data.chatroomId,
->>>>>>> parent of 8ae76eb... adds voice
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,
@@ -100,8 +93,8 @@ io.on('connection', function (socket) {
         if (err) {
           console.log(err)
           return
-          // next(err)
         }
+        // to broadcast the message
         console.log('is this broadcasting?')
         socket.emit('broad', messages)
         // socket.broadcast.emit('broad', messages)
