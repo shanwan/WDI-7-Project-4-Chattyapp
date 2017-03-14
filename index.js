@@ -73,9 +73,9 @@ io.on('connection', function (socket) {
     socket.emit('chat', msg)
   })
   socket.on('messages', function (data) {
-    socket.emit('broad', data)
+    // socket.emit('broad', data)
     // get API translation
-    console.log('am i consuming API?')
+    // console.log('am i consuming API?')
     unirest.get('https://yoda.p.mashape.com/yoda?sentence=' + data.composedMessage)
     .header('X-Mashape-Key', '5ZGQXOI7M0mshOp7RqMZoqeoWvrwp15JVFLjsnBzw4v4s1bi6p')
     .header('Accept', 'text/plain')
