@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
   .exec(function (err, chatrooms) {
     if (err) {
       req.flash('error', err.toString())
-      res.redirect('/index')
+      res.status(400).res.redirect('/index')
       return
     }
     res.render('listChat', {chatrooms: chatrooms})
@@ -59,11 +59,6 @@ router.post('/', function (req, res, next) {
     res.redirect('/chats/new')
     return
   }
-  // if (!req.body.composedMessage) {
-  //   req.flash('error', 'Please enter a message.')
-  //   res.redirect('/chats/new')
-  //   return
-  // }
   // console.log(mongoose.Types.ObjectId(req.user._id))
   // console.log(mongoose.Types.ObjectId(req.body.recipient))
   User.find({firstName: req.body.recipient}, function (err, findUser) {
@@ -75,7 +70,7 @@ router.post('/', function (req, res, next) {
     }
     console.log('who is added to chatroom', mongoose.Types.ObjectId(findUser[0]._id))
     const Chatroomnew = new Chatroom({
-      participants: [mongoose.Types.ObjectId(req.user._id), mongoose.Types.ObjectId(findUser._id)]
+      participants: [mongoose.Types.ObjectId(req.user._id), mongoose.Types.ObjectId(findUser[0]._id)]
     })
     Chatroomnew.save(function (err, newChatroom) {
       if (err) {
@@ -83,21 +78,7 @@ router.post('/', function (req, res, next) {
         res.redirect('/chats/new')
         return
       }
-      // console.log('am i creating new message with the new chatroom?')
-      // const Messagenew = new Message({
-      //   chatroomId: mongoose.Types.ObjectId(newChatroom._id),
-      //   body: req.body.composedMessage,
-      //   author: req.user._id,
-      //   authorName: req.user.firstName
-      // })
-      // Messagenew.save(function (err, messages) {
-      //   if (err) {
-      //     req.flash('error', err.toString())
-      //     res.redirect('/chats/new')
-      //     return
-      //   }
       req.flash('success', 'Conversation started!')
-      // res.render('chatroom', {newChatroom: newChatroom, messages: messages})
       res.render('chatroom', {newChatroom: newChatroom, messages: []})
     })
   })

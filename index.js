@@ -82,9 +82,9 @@ io.on('connection', function (socket) {
     .end(function (result) {
       console.log('am i consuming API?')
       console.log('am i posting new msg into database?', data)
-      // console.log('what is the chatroomid?', mongoose.Types.ObjectId(data.chatroomId))
+      console.log('what is the chatroomid?', data.chatroomId)
       const reply = new Message({
-        chatroomId: mongoose.Types.ObjectId(data.chatroomId._id),
+        chatroomId: data.chatroomId,
         body: data.composedMessage,
         author: data.author,
         authorName: data.authorName,
