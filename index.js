@@ -21,17 +21,17 @@ mongoose.Promise = global.Promise
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/chatertain')
 
 app.set('view engine', 'ejs')
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true
-}))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(ejsLayouts)
 app.use(methodOverride('_method'))
