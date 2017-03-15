@@ -18,7 +18,7 @@ Client Side: Bootstrap, jQuery, eJS
 ## Live Version
 
 This is deployed on heroku: http://chattyappyea.herokuapp.com
-![gif] http://i.giphy.com/KuOulgtUW7UTC.gif
+![gif] (http://i.giphy.com/KuOulgtUW7UTC.gif)
 
 ## Built With
 
