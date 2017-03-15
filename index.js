@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
     .end(function (result) {
       console.log('am i consuming API?')
       console.log('am i posting new msg into database?', data)
-      console.log('what is the chatroomid?', data.chatroomId._id)
+      // console.log('what is the chatroomid?', mongoose.Types.ObjectId(data.chatroomId))
       const reply = new Message({
         chatroomId: mongoose.Types.ObjectId(data.chatroomId._id),
         body: data.composedMessage,
@@ -97,7 +97,8 @@ io.on('connection', function (socket) {
         }
         // to broadcast the message
         console.log('is this broadcasting?')
-        socket.emit('broad', messages)
+        io.sockets.emit('broad', messages)
+        // socket.emit('broad', messages)
         // socket.broadcast.emit('broad', messages)
       })
     })
