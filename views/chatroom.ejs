@@ -46,6 +46,7 @@
         socket.on('broad', function(messages) {
           console.log('do you come here', messages)
           $('#thread').prepend("<div>" + messages.authorName + " : " + messages.body + " : " + messages.translate + "</div>")
+          toSpeakMsg.push(messages.translate)
         })
 
         $('form').submit(function(e){
@@ -67,7 +68,7 @@
 
         var toSpeakMsg = []
         $('#start').click(function(e){
-          console.log('clicked to start')
+          console.log('clicked to start', toSpeakMsg)
           // e.preventDefault()
           toSpeakMsg.forEach(function (speak) {
             responsiveVoice.speak(speak, "UK English Male")
