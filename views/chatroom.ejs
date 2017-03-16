@@ -41,7 +41,7 @@
         <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
         <script>
         // require('dotenv').config()
-        const socket = io
+        const socket = io()
 
         socket.on('broad', function(messages) {
           console.log('do you come here', messages)
