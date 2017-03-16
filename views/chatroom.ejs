@@ -40,7 +40,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
         <script>
-        const socket = io.connect('http://localhost:3000')
+        const socket = io.connect(process.env.PORT || 3000)
 
         socket.on('broad', function(messages) {
           console.log('do you come here', messages)
