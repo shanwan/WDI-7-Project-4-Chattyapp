@@ -40,6 +40,7 @@
         <script src="/socket.io/socket.io.js"></script>
         <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
         <script>
+        require('dotenv').config()
         const socket = io.connect(process.env.PORT || 3000)
 
         socket.on('broad', function(messages) {
