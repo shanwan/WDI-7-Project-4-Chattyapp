@@ -60,6 +60,7 @@ const server = app.listen(process.env.PORT || 3000)
 console.log('Server UP')
 // io listens to server
 const io = require('socket.io').listen(server)
+global.io = io
 console.log('websocket up')
 
 // Set socket.io listeners.
@@ -104,6 +105,3 @@ io.on('connection', function (socket) {
     })
   })
 })
-
-// testing
-module.exports = server; io
